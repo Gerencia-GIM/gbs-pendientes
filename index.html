@@ -82,19 +82,15 @@ tr:hover td{background:rgba(255,255,255,.02)}
 @media(max-width:700px){
   .sidebar{display:none}
   .ap-select{display:block}
-  /* Fix Safari sticky + overflow conflict */
   th{position:static!important}
   .kpis,.tabs{overflow:visible}
-  button,select,input{
-    touch-action:manipulation;
-    cursor:pointer;
-  }
+  button,select,input{touch-action:manipulation;cursor:pointer;}
   .main{padding:8px}
-  table{font-size:12px}
-  td,th{padding:6px 5px}
+  table{font-size:13px;width:100%}
+  td,th{padding:7px 6px}
   .layout{height:auto}
-  /* Scroll horizontal para ver todas las columnas */
-  .tab-content div{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* Mostrar solo PI, Cliente, OC, Pendiente */
+  .col-ap,.col-com,.col-valor,.col-fac{display:none!important}
 }
 </style>
 </head>
@@ -195,36 +191,39 @@ function verDetalle(tr) {
   var d;
   try { d = JSON.parse(raw.replace(/&quot;/g,'"').replace(/&#39;/g,"'")); }
   catch(e) { return; }
-  document.getElementById('detTitle').textContent = 'PI ' + d.pi + ' — ' + d.cliente;
-  var rows = [
-    ['Administrador de Proyectos', d.ap],
-    ['Comercial', d.comercial],
-    ['Orden de Compra', d.oc],
-    ['Oferta No.', d.oferta_no],
-    ['Solicitado por', d.solicitado],
-    ['Fecha OC', d.fecha_oc],
-    ['Proyecto', d.proyecto],
-    ['Tipo de Proyecto', d.tipo],
-    ['Descripción', d.descripcion],
-    ['Forma de Pago', d.forma_pago],
-    ['Valor OC', d.valor_oc],
-    ['Facturado', d.fac_neto],
-    ['⚠️ Pendiente', d.pendiente],
-    ['Observaciones', d.obs],
-  ];
-  var html = '<table style="width:100%;border-collapse:collapse;font-size:13px">';
-  rows.forEach(function(r) {
-    if(!r[1] || r[1]==='None' || r[1]==='' || r[1]==='nan') return;
-    var isP = r[0].indexOf('Pendiente') >= 0;
-    html += '<tr style="border-bottom:1px solid #0f172a">'
-      + '<td style="padding:8px 6px;color:#64748b;white-space:nowrap;vertical-align:top;font-size:11px;width:40%">' + r[0] + '</td>'
-      + '<td style="padding:8px 6px;font-weight:' + (isP?'800':'500') + ';color:' + (isP?'#f59e0b':'#e2e8f0') + '">' + r[1] + '</td>'
+
+  document.getElementById('detTitle').innerHTML =
+    '<span style="color:#38bdf8">PI ' + d.pi + '</span>' +
+    '<br><small style="font-size:12px;color:#94a3b8;font-weight:400">' + d.cliente + '</small>';
+
+  function row(label, val, highlight) {
+    if(!val || val==='None' || val==='' || val==='nan' || val==='-') return '';
+    return '<tr style="border-bottom:1px solid #0f172a">'
+      + '<td style="padding:9px 6px;color:#64748b;font-size:11px;width:38%;vertical-align:top">' + label + '</td>'
+      + '<td style="padding:9px 6px;font-weight:' + (highlight?'800':'500') + ';color:' + (highlight?'#f59e0b':'#e2e8f0') + ';font-size:13px">' + val + '</td>'
       + '</tr>';
-  });
+  }
+
+  var html = '<table style="width:100%;border-collapse:collapse">';
+  html += row('Proyecto / Descripción', d.descripcion || d.proyecto);
+  html += row('Tipo de Proyecto', d.tipo);
+  html += row('Forma de Pago', d.forma_pago);
+  html += row('Oferta No.', d.oferta_no);
+  html += row('Fecha O.C.', d.fecha_oc);
+  html += row('AP', d.ap);
+  html += row('Comercial', d.comercial);
+  html += row('Solicitado por', d.solicitado);
+  html += '<tr style="border-top:2px solid #334155"><td colspan="2" style="padding:4px"></td></tr>';
+  html += row('Valor O.C.', d.valor_oc);
+  html += row('Facturado', d.fac_neto);
+  html += row('⚠️ Pendiente', d.pendiente, true);
+  if(d.obs && d.obs!=='None' && d.obs!=='' && d.obs!=='nan') {
+    html += '<tr><td style="padding:9px 6px;color:#64748b;font-size:11px;vertical-align:top">Observaciones</td>'
+      + '<td style="padding:9px 6px;font-size:12px;color:#94a3b8;line-height:1.5">' + d.obs + '</td></tr>';
+  }
   html += '</table>';
   document.getElementById('detBody').innerHTML = html;
-  var m = document.getElementById('detModal');
-  m.style.display = 'flex';
+  document.getElementById('detModal').style.display = 'flex';
 }
 function cerrarDetalle() {
   document.getElementById('detModal').style.display = 'none';
@@ -232,6 +231,12 @@ function cerrarDetalle() {
 // Close on backdrop click
 document.getElementById('detModal').addEventListener('click', function(e) {
   if(e.target === this) cerrarDetalle();
+});
+
+// PI row click — event delegation (iOS Safari safe)
+document.addEventListener('click', function(e) {
+  var tr = e.target.closest('tr.pi-row-click');
+  if(tr) verDetalle(tr);
 });
 
 function filtrar() {
