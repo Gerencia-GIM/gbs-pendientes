@@ -258,10 +258,24 @@ function showTab(año) {
     document.querySelectorAll('.tab-content').forEach(function(d) {
       d.style.display = 'block';
     });
+    // En modo Todos: ocultar headers de tabla y filas de total duplicadas
+    document.querySelectorAll('.tab-content thead').forEach(function(th, i) {
+      th.style.display = i === 0 ? '' : 'none';
+    });
+    document.querySelectorAll('.tab-content .total-row').forEach(function(r) {
+      r.style.display = 'none';
+    });
     currentAño = 'todos';
   } else {
     document.querySelectorAll('.tab-content').forEach(function(d) {
       d.style.display = (d.id === 'tab-' + año) ? 'block' : 'none';
+    });
+    // En modo año: mostrar headers y totales
+    document.querySelectorAll('.tab-content thead').forEach(function(th) {
+      th.style.display = '';
+    });
+    document.querySelectorAll('.tab-content .total-row').forEach(function(r) {
+      r.style.display = '';
     });
     currentAño = año;
   }
