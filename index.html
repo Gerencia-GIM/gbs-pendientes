@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 21/04/2026 12:38</title>
+<title>GBS · Pendientes · 21/04/2026 12:45</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -95,20 +95,22 @@ col.col-pend{width:80px}
   button,select,input{touch-action:manipulation;cursor:pointer}
   .main{padding:6px}
   .layout{height:auto}
-  /* Ocultar columnas innecesarias en móvil */
-  td.col-ap, th.col-ap,
-  td.col-com, th.col-com,
-  td.col-valor, th.col-valor,
-  td.col-fac, th.col-fac { display:none!important }
-  /* 4 columnas visibles: PI=12% | Cliente=42% | OC=24% | Pendiente=22% */
-  table{ font-size:12px; table-layout:fixed; width:100% }
-  col.col-pi   { width:12% }
-  col.col-cli  { width:42% }
-  col.col-oc   { width:24% }
-  col.col-pend { width:22% }
-  td, th { padding:6px 4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-  td.col-pend, th.col-pend { text-align:right }
-  td.col-cli { white-space:normal; word-break:break-word }
+  /* Ocultar columnas innecesarias — incluyendo col del colgroup */
+  td.col-ap, th.col-ap, col.col-ap,
+  td.col-com, th.col-com, col.col-com,
+  td.col-valor, th.col-valor, col.col-valor,
+  td.col-fac, th.col-fac, col.col-fac { display:none!important }
+  /* tabla auto con th width — más confiable que fixed+col */
+  table{ font-size:12px; table-layout:auto; width:100% }
+  th.col-pi  { width:12% }
+  th.col-cli { width:42% }
+  th.col-oc  { width:24% }
+  th.col-pend{ width:22% }
+  td, th { padding:6px 4px }
+  td.col-pi, th.col-pi { overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  td.col-cli, th.col-cli { white-space:normal; word-break:break-word }
+  td.col-oc, th.col-oc { overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  td.col-pend, th.col-pend { text-align:right; white-space:nowrap }
 }
 </style>
 </head>
@@ -116,7 +118,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 21/04/2026 12:38</p>
+    <p>GBS · GIM Ingeniería · 21/04/2026 12:45</p>
   </div>
 </div>
 
