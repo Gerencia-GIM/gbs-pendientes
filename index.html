@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 21/04/2026 09:09</title>
+<title>GBS · Pendientes · 21/04/2026 09:41</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -16,15 +16,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;fo
 .total-badge{font-size:18px;font-weight:800;color:#f59e0b;text-align:right}
 .total-badge small{display:block;font-size:11px;color:#64748b;font-weight:400}
 
-/* KPIS */
-.kpis{display:flex;gap:8px;padding:10px 14px;
-  overflow-x:auto;-webkit-overflow-scrolling:touch;
-  border-bottom:1px solid #1e293b}
-.kpi-card{background:#1e293b;border:1px solid #334155;border-radius:8px;
-  padding:10px 14px;min-width:100px;text-align:center;flex-shrink:0}
-.kpi-yr{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
-.kpi-v{font-size:15px;font-weight:800;color:#f59e0b;margin:3px 0}
-.kpi-s{font-size:10px;color:#475569}
+/* KPI CARDS */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px;border-bottom:1px solid #1e293b}
+@media(max-width:480px){.kpis{grid-template-columns:1fr;gap:8px;padding:10px}}
+.kpi-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px 16px;text-align:left}
+.kpi-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.kpi-v{font-size:20px;font-weight:800;margin:2px 0}
+.kpi-s{font-size:11px;color:#475569;margin-top:3px}
 
 /* LAYOUT */
 .layout{display:flex;min-height:0}
@@ -101,12 +99,12 @@ tr:hover td{background:rgba(255,255,255,.02)}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 21/04/2026 09:09</p>
+    <p>GBS · GIM Ingeniería · 21/04/2026 09:41</p>
   </div>
   <div class="total-badge">$16.889 MM<small>114 proyectos</small></div>
 </div>
 
-<div class="kpis"><div class="kpi-card"><div class="kpi-yr">2023</div><div class="kpi-v">$321.5 M</div><div class="kpi-s">5 PIs</div></div><div class="kpi-card"><div class="kpi-yr">2024</div><div class="kpi-v">$838.7 M</div><div class="kpi-s">5 PIs</div></div><div class="kpi-card"><div class="kpi-yr">2025</div><div class="kpi-v">$2.944 MM</div><div class="kpi-s">36 PIs</div></div><div class="kpi-card"><div class="kpi-yr">2026</div><div class="kpi-v">$12.785 MM</div><div class="kpi-s">68 PIs</div></div></div>
+<div class="kpis"><div class="kpi-card" style="border-top:3px solid #3b82f6"><div class="kpi-label">Ventas 2026</div><div class="kpi-v" style="color:#3b82f6">$13.525 MM</div><div class="kpi-s">39.9% de meta</div></div><div class="kpi-card" style="border-top:3px solid #ef4444"><div class="kpi-label">Facturación 2026</div><div class="kpi-v" style="color:#ef4444">$8.387 MM</div><div class="kpi-s">24.7% de meta</div></div><div class="kpi-card" style="border-top:3px solid #f59e0b"><div class="kpi-label">Pendiente Facturar</div><div class="kpi-v" style="color:#f59e0b">$16.889 MM</div><div class="kpi-s">1258 proyectos</div></div></div>
 
 <div class="layout">
   <div class="sidebar">
