@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 21/04/2026 12:25</title>
+<title>GBS · Pendientes · 21/04/2026 12:38</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -100,20 +100,15 @@ col.col-pend{width:80px}
   td.col-com, th.col-com,
   td.col-valor, th.col-valor,
   td.col-fac, th.col-fac { display:none!important }
-  /* Tabla sin layout fijo en móvil para auto-ajuste */
+  /* 4 columnas visibles: PI=12% | Cliente=42% | OC=24% | Pendiente=22% */
   table{ font-size:12px; table-layout:fixed; width:100% }
-  /* Proportional widths for 4 visible columns (46+auto+74+70 of ~390px screen) */
-  td.col-cli, th.col-cli { width:40%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-  /* Anchos específicos para las 4 columnas visibles */
-  col.col-pi   { width:46px }
-  col.col-cli  { width:auto }
-  col.col-oc   { width:74px }
-  col.col-pend { width:70px }
-  th.col-pi, td.col-pi { width:46px; min-width:46px }
-  td.col-cli, th.col-cli { max-width:90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-  th.col-oc,  td.col-oc  { max-width:74px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-  th.col-pend, td.col-pend { text-align:right; min-width:64px }
-  td,th{ padding:7px 4px }
+  col.col-pi   { width:12% }
+  col.col-cli  { width:42% }
+  col.col-oc   { width:24% }
+  col.col-pend { width:22% }
+  td, th { padding:6px 4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  td.col-pend, th.col-pend { text-align:right }
+  td.col-cli { white-space:normal; word-break:break-word }
 }
 </style>
 </head>
@@ -121,7 +116,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 21/04/2026 12:25</p>
+    <p>GBS · GIM Ingeniería · 21/04/2026 12:38</p>
   </div>
 </div>
 
