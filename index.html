@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 22/04/2026 13:23</title>
+<title>GBS · Pendientes · 22/04/2026 14:10</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -190,7 +190,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 22/04/2026 13:23</p>
+    <p>GBS · GIM Ingeniería · 22/04/2026 14:10</p>
   </div>
   <button onclick="toggleTendencias()" id="btnTend"
     style="margin-left:auto;background:none;border:1px solid rgba(168,85,247,0.5);
@@ -462,7 +462,13 @@ function toggleTendencias() {
   var showing = panel.style.display !== 'none';
   panel.style.display = showing ? 'none' : 'block';
   btn.style.background = showing ? 'none' : 'rgba(168,85,247,0.15)';
-  if(!showing && !_tendInited) { initTendGH(); _tendInited=true; }
+  if(!showing && !_tendInited) {
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        initTendGH(); _tendInited=true;
+      });
+    });
+  }
 }
 
 function initTendGH() {
@@ -546,9 +552,9 @@ function initTendGH() {
     });
 
     // Chart 4 — FAC por AP
-    var admins = (FAC_ADMIN_DATA[año]?.admins||[]).filter(function(a){return a!=='Sin AP';});
+    var admins = ((FAC_ADMIN_DATA[año] && FAC_ADMIN_DATA[año].admins) || []).filter(function(a){return a!=='Sin AP';});
     var apPairs= admins.map(function(a){
-      return {name:a,val:(FAC_ADMIN_DATA[año][a]||[]).reduce(function(s,v){return s+(v||0);},0)};
+      return {name:a,val:((FAC_ADMIN_DATA[año] && FAC_ADMIN_DATA[año][a]) || []).reduce(function(s,v){return s+(v||0);},0)};
     }).filter(function(p){return p.val>0;}).sort(function(a,b){return b.val-a.val;});
     var apCols = ['#06b6d4','#8b5cf6','#f43f5e','#84cc16','#f97316','#0ea5e9','#a855f7'];
     // Adjust chart4 height based on AP count
@@ -565,7 +571,19 @@ function initTendGH() {
           datasets:[{label:'FAC',data:apPairs.map(function(p){return p.val;}),
             backgroundColor:apPairs.map(function(_,i){return apCols[i%apCols.length];}),borderRadius:4}]
         },
-        options:Object.assign({},opts,{indexAxis:'y'})
+        options:{responsive:true,maintainAspectRatio:false,
+          indexAxis:'y',
+          plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){
+            var v=ctx.parsed.x;
+            return v>=1e9?'$'+(v/1e9).toFixed(2)+'MM':v>=1e6?'$'+(v/1e6).toFixed(0)+'M':'$'+v;
+          }}}},
+          scales:{
+            x:{ticks:{color:'#94a3b8',font:{size:9},callback:function(v){
+              return v>=1e9?'$'+(v/1e9).toFixed(1)+'MM':v>=1e6?'$'+(v/1e6).toFixed(0)+'M':'$'+v;
+            }},grid:{color:'#334155'}},
+            y:{ticks:{color:'#e2e8f0',font:{size:10}},grid:{display:false}}
+          }
+        }
       });
     }
   }
