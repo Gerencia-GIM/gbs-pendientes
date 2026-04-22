@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 22/04/2026 16:53</title>
+<title>GBS · Pendientes · 22/04/2026 16:58</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -190,7 +190,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 22/04/2026 16:53</p>
+    <p>GBS · GIM Ingeniería · 22/04/2026 16:58</p>
   </div>
   <button onclick="toggleTendencias()" id="btnTend"
     style="margin-left:auto;background:none;border:1px solid rgba(168,85,247,0.5);
@@ -552,10 +552,10 @@ function initTendGH() {
     var mOCMes  = metaOC.slice(0,_lastMes+1);
     new CH(document.getElementById('ghChart3'),{
       type:'bar', data:{labels:lblMes, datasets:[
-        {label:'Meta V',data:mOCMes,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'rgba(59,130,246,0.4)',borderWidth:1,borderRadius:3},
-        {label:'Ventas',data:ocMes,backgroundColor:'#3b82f6',borderRadius:3},
-        {label:'Meta FAC',data:mFacMes,backgroundColor:'rgba(16,185,129,0.15)',borderColor:'rgba(16,185,129,0.4)',borderWidth:1,borderRadius:3},
-        {label:'Facturación',data:facMes,backgroundColor:'#10b981',borderRadius:3},
+        {label:'Meta Ventas',data:mOCMes,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'rgba(59,130,246,0.4)',borderWidth:1,borderRadius:3,order:4},
+        {label:'Ventas',data:ocMes,backgroundColor:'#3b82f6',borderRadius:3,order:3},
+        {label:'Meta FAC',data:mFacMes,backgroundColor:'rgba(16,185,129,0.15)',borderColor:'rgba(16,185,129,0.4)',borderWidth:1,borderRadius:3,order:2},
+        {label:'Facturación',data:facMes,backgroundColor:'#10b981',borderRadius:3,order:1},
       ]}, options:opts
     });
 
