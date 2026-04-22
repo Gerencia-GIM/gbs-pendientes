@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 22/04/2026 12:03</title>
+<title>GBS · Pendientes · 22/04/2026 12:26</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -110,13 +110,87 @@ col.col-pend{width:80px}
   tr.total-row td { white-space:nowrap }
   td, th { padding:6px 4px }
 }
+/* PIN OVERLAY */
+.pin-overlay{
+  position:fixed;inset:0;background:#0f172a;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+}
+.pin-box{
+  background:#1e293b;border:1px solid #334155;border-radius:16px;
+  padding:36px 32px;width:90%;max-width:340px;text-align:center;
+}
+.pin-logo{
+  font-size:32px;margin-bottom:8px;
+}
+.pin-title{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;
+  letter-spacing:2px;color:#f59e0b;margin-bottom:4px;
+}
+.pin-sub{
+  font-size:12px;color:#64748b;margin-bottom:24px;
+}
+.pin-dots{
+  display:flex;justify-content:center;gap:10px;margin-bottom:20px;
+}
+.pin-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid #334155;background:transparent;
+  transition:all 0.15s;
+}
+.pin-dot.filled{
+  background:#f59e0b;border-color:#f59e0b;
+}
+.pin-keypad{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+}
+.pin-key{
+  background:#0f172a;border:1px solid #334155;border-radius:8px;
+  color:#e2e8f0;font-size:18px;font-weight:600;
+  padding:14px;cursor:pointer;transition:background 0.1s;
+  touch-action:manipulation;
+}
+.pin-key:hover,.pin-key:active{background:#334155;}
+.pin-key.del{color:#64748b;font-size:14px;}
+.pin-error{
+  color:#ef4444;font-size:12px;margin-top:12px;
+  min-height:18px;
+}
 </style>
 </head>
 <body>
+<div class="pin-overlay" id="pinOverlay">
+  <div class="pin-box">
+    <div class="pin-logo">🏗️</div>
+    <div class="pin-title">GBS · PENDIENTES</div>
+    <div class="pin-sub">GIM Ingeniería y Proyectos</div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key del" onclick="pinKey('C')">⌫</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinKey('X')">✕</button>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+  </div>
+</div>
+
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 22/04/2026 12:03</p>
+    <p>GBS · GIM Ingeniería · 22/04/2026 12:26</p>
   </div>
 </div>
 
@@ -157,6 +231,7 @@ col.col-pend{width:80px}
 </div>
 
 <script>
+var GBS_PIN = '1234';
 var currentAP = '';
 var currentAño = '2026';
 
@@ -305,6 +380,46 @@ function filtrar() {
     });
   });
 }
+// ── PIN DE ACCESO ─────────────────────────────────────────────
+var _pinEntry = '';
+var _pinCorrect = (function(){
+  // PIN leido desde config embebido
+  try { return (typeof GBS_PIN !== 'undefined' && GBS_PIN) ? GBS_PIN : '1234'; }
+  catch(e) { return '1234'; }
+})();
+
+function pinKey(k) {
+  if(k==='C') {
+    _pinEntry = _pinEntry.slice(0,-1);
+  } else if(k==='X') {
+    _pinEntry = '';
+  } else if(_pinEntry.length < 4) {
+    _pinEntry += k;
+  }
+  // Update dots
+  for(var i=0;i<4;i++) {
+    var d = document.getElementById('d'+i);
+    if(d) d.className = 'pin-dot' + (i < _pinEntry.length ? ' filled' : '');
+  }
+  // Check
+  if(_pinEntry.length===4) {
+    if(_pinEntry === _pinCorrect) {
+      document.getElementById('pinOverlay').style.display='none';
+      document.getElementById('pinError').textContent='';
+    } else {
+      document.getElementById('pinError').textContent='PIN incorrecto';
+      setTimeout(function(){
+        _pinEntry='';
+        for(var i=0;i<4;i++){
+          var d=document.getElementById('d'+i);
+          if(d) d.className='pin-dot';
+        }
+        document.getElementById('pinError').textContent='';
+      }, 800);
+    }
+  }
+}
+
 showTab('todos');
 </script>
 </body></html>
