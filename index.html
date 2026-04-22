@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 22/04/2026 13:12</title>
+<title>GBS · Pendientes · 22/04/2026 13:23</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -190,7 +190,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 22/04/2026 13:12</p>
+    <p>GBS · GIM Ingeniería · 22/04/2026 13:23</p>
   </div>
   <button onclick="toggleTendencias()" id="btnTend"
     style="margin-left:auto;background:none;border:1px solid rgba(168,85,247,0.5);
@@ -202,26 +202,24 @@ col.col-pend{width:80px}
 
 
 <div id="tendPanel" style="display:none;background:#0f172a;border-bottom:1px solid #334155;padding:16px">
-  <!-- KPIs -->
-  <div id="tendKpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px"></div>
-  <!-- Charts -->
   <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
-    <div style="font-size:11px;color:#3b82f6;letter-spacing:1px;margin-bottom:8px">📈 FACTURACIÓN HISTÓRICA MES A MES</div>
+    <div style="font-size:11px;color:#3b82f6;letter-spacing:1px;margin-bottom:6px">📈 FACTURACIÓN HISTÓRICA MES A MES</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:#64748b;margin-bottom:8px"><span style="color:#60a5fa">■ 2023</span><span style="color:#34d399">■ 2024</span><span style="color:#fbbf24">■ 2025</span><span style="color:#a78bfa">■ 2026</span><span style="color:rgba(255,255,255,0.25)">— Meta</span></div>
     <div style="position:relative;height:200px"><canvas id="ghChart1"></canvas></div>
   </div>
   <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
-    <div style="font-size:11px;color:#a855f7;letter-spacing:1px;margin-bottom:8px">📊 VENTAS HISTÓRICAS MES A MES</div>
+    <div style="font-size:11px;color:#a855f7;letter-spacing:1px;margin-bottom:6px">📊 VENTAS HISTÓRICAS MES A MES</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:#64748b;margin-bottom:8px"><span style="color:#60a5fa">■ 2023</span><span style="color:#34d399">■ 2024</span><span style="color:#fbbf24">■ 2025</span><span style="color:#a78bfa">■ 2026</span><span style="color:rgba(255,255,255,0.25)">— Meta</span></div>
     <div style="position:relative;height:200px"><canvas id="ghChart2"></canvas></div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px">
-      <div style="font-size:11px;color:#f59e0b;letter-spacing:1px;margin-bottom:8px">📊 VENTAS VS FAC MENSUAL</div>
-      <div style="position:relative;height:180px"><canvas id="ghChart3"></canvas></div>
-    </div>
-    <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px">
-      <div style="font-size:11px;color:#10b981;letter-spacing:1px;margin-bottom:8px">💼 FAC POR AP</div>
-      <div style="position:relative;height:180px"><canvas id="ghChart4"></canvas></div>
-    </div>
+  <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;color:#f59e0b;letter-spacing:1px;margin-bottom:6px">📊 VENTAS VS FACTURACIÓN MENSUAL</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:#64748b;margin-bottom:8px"><span style="color:rgba(59,130,246,0.5)">■ Meta Ventas</span><span style="color:#3b82f6">■ Ventas</span><span style="color:rgba(16,185,129,0.5)">■ Meta FAC</span><span style="color:#10b981">■ Facturación</span></div>
+    <div style="position:relative;height:220px"><canvas id="ghChart3"></canvas></div>
+  </div>
+  <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;color:#10b981;letter-spacing:1px;margin-bottom:6px">💼 FACTURACIÓN POR AP</div>
+    <div id="ghChart4Wrap" style="position:relative;height:180px"><canvas id="ghChart4"></canvas></div>
   </div>
 </div>
 
@@ -494,20 +492,6 @@ function initTendGH() {
   var cF     = pFac>=80?'#10b981':pFac>=60?'#f59e0b':'#ef4444';
   var cO     = pOC>=80?'#10b981':pOC>=60?'#f59e0b':'#3b82f6';
 
-  // KPIs
-  document.getElementById('tendKpis').innerHTML =
-    '<div style="background:#1e293b;border:1px solid #334155;border-top:3px solid '+cO+';border-radius:10px;padding:14px">'
-    +'<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Ventas '+año+'</div>'
-    +'<div style="font-size:18px;font-weight:800;color:'+cO+'">'+fmt(ocAño)+'</div>'
-    +'<div style="font-size:11px;color:#64748b;margin-top:3px">'+pOC+'% de meta</div></div>'
-    +'<div style="background:#1e293b;border:1px solid #334155;border-top:3px solid '+cF+';border-radius:10px;padding:14px">'
-    +'<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Facturación '+año+'</div>'
-    +'<div style="font-size:18px;font-weight:800;color:'+cF+'">'+fmt(facAño)+'</div>'
-    +'<div style="font-size:11px;color:#64748b;margin-top:3px">'+pFac+'% de meta</div></div>'
-    +'<div style="background:#1e293b;border:1px solid #334155;border-top:3px solid #f59e0b;border-radius:10px;padding:14px">'
-    +'<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Pendiente Facturar</div>'
-    +'<div style="font-size:18px;font-weight:800;color:#f59e0b">'+fmt(PEND_TOTAL)+'</div></div>';
-
   // Load Chart.js then draw
   function drawCharts() {
     var CH = window.Chart;
@@ -567,6 +551,9 @@ function initTendGH() {
       return {name:a,val:(FAC_ADMIN_DATA[año][a]||[]).reduce(function(s,v){return s+(v||0);},0)};
     }).filter(function(p){return p.val>0;}).sort(function(a,b){return b.val-a.val;});
     var apCols = ['#06b6d4','#8b5cf6','#f43f5e','#84cc16','#f97316','#0ea5e9','#a855f7'];
+    // Adjust chart4 height based on AP count
+    var c4wrap = document.getElementById('ghChart4Wrap');
+    if(c4wrap && apPairs.length > 0) c4wrap.style.height = Math.max(160, apPairs.length * 38) + 'px';
     if(apPairs.length > 0) {
       new CH(document.getElementById('ghChart4'),{
         type:'bar',
