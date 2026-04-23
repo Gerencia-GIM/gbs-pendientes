@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 23/04/2026 07:00</title>
+<title>GBS · Pendientes · 23/04/2026 15:56</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -190,7 +190,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 23/04/2026 07:00</p>
+    <p>GBS · GIM Ingeniería · 23/04/2026 15:56</p>
   </div>
   <button onclick="toggleTendencias()" id="btnTend"
     style="margin-left:auto;background:none;border:1px solid rgba(168,85,247,0.5);
@@ -525,7 +525,8 @@ function initTendGH() {
         return {label:a,data:FAC_ADMIN_DATA[a]?.total||new Array(12).fill(0),
           borderColor:cols[i],backgroundColor:'transparent',tension:0.3,
           pointRadius:a===String(año)?3:1,borderWidth:a===String(año)?2:1.5};
-      })}, options:opts
+      }).concat([{label:'Meta FAC',data:metaFac,borderColor:'rgba(255,255,255,0.2)',
+        borderDash:[6,4],tension:0,pointRadius:0,fill:false,borderWidth:1.5}])}, options:opts
     });
 
     // Chart 2 — OC histórica
@@ -534,7 +535,8 @@ function initTendGH() {
         return {label:a,data:OC_DATA[a]?.total||new Array(12).fill(0),
           borderColor:cols[i],backgroundColor:'transparent',tension:0.3,
           pointRadius:a===String(año)?3:1,borderWidth:a===String(año)?2:1.5};
-      })}, options:opts
+      }).concat([{label:'Meta Ventas',data:metaOC,borderColor:'rgba(255,255,255,0.2)',
+        borderDash:[6,4],tension:0,pointRadius:0,fill:false,borderWidth:1.5}])}, options:opts
     });
 
     // Chart 3 — Ventas vs FAC mensual año actual
