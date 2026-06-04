@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 04/06/2026 12:43</title>
+<title>GBS · Pendientes · 04/06/2026 13:31</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -190,7 +190,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 04/06/2026 12:43</p>
+    <p>GBS · GIM Ingeniería · 04/06/2026 13:31</p>
   </div>
   <button onclick="toggleTendencias()" id="btnTend"
     style="margin-left:auto;background:none;border:1px solid rgba(168,85,247,0.5);
@@ -498,6 +498,43 @@ function initTendGH() {
   var pOC    = metaOT>0?(ocAño/metaOT*100).toFixed(1):0;
   var cF     = pFac>=80?'#10b981':pFac>=60?'#f59e0b':'#ef4444';
   var cO     = pOC>=80?'#10b981':pOC>=60?'#f59e0b':'#3b82f6';
+
+  // Meta acumulada hasta el mes actual
+  var _mesPend  = new Date().getMonth();
+  var _mesNom   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][_mesPend];
+  var _metaAcumOC  = metaOC.slice(0,_mesPend+1).reduce(function(s,v){return s+v;},0);
+  var _metaAcumFac = metaFac.slice(0,_mesPend+1).reduce(function(s,v){return s+v;},0);
+
+  // KPI strip dinámico
+  var pendVal=0, pendCount=0;
+  try{
+    Object.values(PEND_DATA||{}).forEach(function(ap){
+      (ap.proyectos||[]).forEach(function(p){if(p.saldo_facturar>0){pendVal+=p.saldo_facturar;pendCount++;}});
+    });
+  }catch(e){}
+
+  var kpiEl = document.getElementById('kpi-strip-main');
+  if(kpiEl) {
+    kpiEl.innerHTML = [
+      {col:'#3b82f6', lbl:'Entrada De Pedidos '+año, val:fmt(ocAño),
+        sub:pOC+'% de meta',
+        extra:'<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.07)">'+
+              '<div style="font-size:9px;color:#64748b;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Meta acumulada a '+_mesNom+'</div>'+
+              '<div style="font-size:15px;font-weight:700;color:#94a3b8">'+fmt(_metaAcumOC)+'</div></div>'},
+      {col:cF, lbl:'Facturación '+año, val:fmt(facAño),
+        sub:pFac+'% de meta',
+        extra:'<div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.07)">'+
+              '<div style="font-size:9px;color:#64748b;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Meta acumulada a '+_mesNom+'</div>'+
+              '<div style="font-size:15px;font-weight:700;color:#94a3b8">'+fmt(_metaAcumFac)+'</div></div>'},
+      {col:'#f59e0b', lbl:'Pendiente Facturar', val:fmt(pendVal), sub:pendCount+' proyectos', extra:''}
+    ].map(function(k){
+      return '<div class="kpi-card" style="border-top:3px solid '+k.col+'">'+
+             '<div class="kpi-label">'+k.lbl+'</div>'+
+             '<div class="kpi-v" style="color:'+k.col+'">'+k.val+'</div>'+
+             '<div class="kpi-s">'+k.sub+'</div>'+
+             k.extra+'</div>';
+    }).join('');
+  }
 
   // Load Chart.js then draw
   function drawCharts() {
