@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GBS · Pendientes · 04/06/2026 11:47</title>
+<title>GBS · Pendientes · 04/06/2026 11:55</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#e2e8f0;font-size:13px}
@@ -190,7 +190,7 @@ col.col-pend{width:80px}
 <div class="header">
   <div>
     <h1>📋 PENDIENTES POR FACTURAR</h1>
-    <p>GBS · GIM Ingeniería · 04/06/2026 11:47</p>
+    <p>GBS · GIM Ingeniería · 04/06/2026 11:55</p>
   </div>
   <button onclick="toggleTendencias()" id="btnTend"
     style="margin-left:auto;background:none;border:1px solid rgba(168,85,247,0.5);
@@ -198,7 +198,7 @@ col.col-pend{width:80px}
     cursor:pointer;white-space:nowrap;touch-action:manipulation">📈 Tendencias</button>
 </div>
 
-<div class="kpis"><div class="kpi-card" style="border-top:3px solid #3b82f6"><div class="kpi-label">Ventas 2026</div><div class="kpi-v" style="color:#3b82f6">$15.951 MM</div><div class="kpi-s">47.0% de meta</div></div><div class="kpi-card" style="border-top:3px solid #ef4444"><div class="kpi-label">Facturación 2026</div><div class="kpi-v" style="color:#ef4444">$12.241 MM</div><div class="kpi-s">36.0% de meta</div></div><div class="kpi-card" style="border-top:3px solid #f59e0b"><div class="kpi-label">Pendiente Facturar</div><div class="kpi-v" style="color:#f59e0b">$14.533 MM</div><div class="kpi-s">1302 proyectos</div></div></div>
+<div class="kpis"><div class="kpi-card" style="border-top:3px solid #3b82f6"><div class="kpi-label">Entrada De Pedidos 2026</div><div class="kpi-v" style="color:#3b82f6">$15.951 MM</div><div class="kpi-s">47.0% de meta</div></div><div class="kpi-card" style="border-top:3px solid #ef4444"><div class="kpi-label">Facturación 2026</div><div class="kpi-v" style="color:#ef4444">$12.241 MM</div><div class="kpi-s">36.0% de meta</div></div><div class="kpi-card" style="border-top:3px solid #f59e0b"><div class="kpi-label">Pendiente Facturar</div><div class="kpi-v" style="color:#f59e0b">$14.533 MM</div><div class="kpi-s">1302 proyectos</div></div></div>
 
 
 <div id="tendPanel" style="display:none;background:#0f172a;border-bottom:1px solid #334155;padding:16px">
@@ -208,13 +208,13 @@ col.col-pend{width:80px}
     <div style="position:relative;height:200px"><canvas id="ghChart1"></canvas></div>
   </div>
   <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
-    <div style="font-size:11px;color:#a855f7;letter-spacing:1px;margin-bottom:6px">📊 VENTAS HISTÓRICAS MES A MES</div>
+    <div style="font-size:11px;color:#a855f7;letter-spacing:1px;margin-bottom:6px">📊 ENTRADA DE PEDIDOS HISTÓRICA MES A MES</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:#64748b;margin-bottom:8px"><span style="color:#60a5fa">■ 2023</span><span style="color:#34d399">■ 2024</span><span style="color:#fbbf24">■ 2025</span><span style="color:#a78bfa">■ 2026</span><span style="color:rgba(255,255,255,0.25)">— Meta</span></div>
     <div style="position:relative;height:200px"><canvas id="ghChart2"></canvas></div>
   </div>
   <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
-    <div style="font-size:11px;color:#f59e0b;letter-spacing:1px;margin-bottom:6px">📊 VENTAS VS FACTURACIÓN MENSUAL</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:#64748b;margin-bottom:8px"><span style="color:rgba(59,130,246,0.5)">■ Meta Ventas</span><span style="color:#3b82f6">■ Ventas</span><span style="color:rgba(16,185,129,0.5)">■ Meta FAC</span><span style="color:#10b981">■ Facturación</span></div>
+    <div style="font-size:11px;color:#f59e0b;letter-spacing:1px;margin-bottom:6px">📊 ENTRADA DE PEDIDOS VS FACTURACIÓN MENSUAL</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:#64748b;margin-bottom:8px"><span style="color:rgba(59,130,246,0.5)">■ Meta Entrada De Pedidos</span><span style="color:#3b82f6">■ Entrada De Pedidos</span><span style="color:rgba(16,185,129,0.5)">■ Meta FAC</span><span style="color:#10b981">■ Facturación</span></div>
     <div style="position:relative;height:220px"><canvas id="ghChart3"></canvas></div>
   </div>
   <div style="background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px;margin-bottom:12px">
@@ -535,11 +535,11 @@ function initTendGH() {
         return {label:a,data:OC_DATA[a]?.total||new Array(12).fill(0),
           borderColor:cols[i],backgroundColor:'transparent',tension:0.3,
           pointRadius:a===String(año)?3:1,borderWidth:a===String(año)?2:1.5};
-      }).concat([{label:'Meta Ventas',data:metaOC,borderColor:'rgba(255,255,255,0.2)',
+      }).concat([{label:'Meta Entrada De Pedidos',data:metaOC,borderColor:'rgba(255,255,255,0.2)',
         borderDash:[6,4],tension:0,pointRadius:0,fill:false,borderWidth:1.5}])}, options:opts
     });
 
-    // Chart 3 — Ventas vs FAC mensual año actual
+    // Chart 3 — Entrada De Pedidos vs FAC mensual año actual
     // Use last month that has any OC or FAC data
     var _ocAll  = OC_DATA[año]?.total||[];
     var _facAll = FAC_ADMIN_DATA[año]?.total||[];
@@ -560,8 +560,8 @@ function initTendGH() {
                }},grid:{color:'#334155'}}}};
     new CH(document.getElementById('ghChart3'),{
       type:'bar', data:{labels:lblMes, datasets:[
-        {label:'Meta Ventas',data:mOCMes,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'rgba(59,130,246,0.4)',borderWidth:1,borderRadius:3,order:4},
-        {label:'Ventas',data:ocMes,backgroundColor:'#3b82f6',borderRadius:3,order:3},
+        {label:'Meta Entrada De Pedidos',data:mOCMes,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'rgba(59,130,246,0.4)',borderWidth:1,borderRadius:3,order:4},
+        {label:'Entrada De Pedidos',data:ocMes,backgroundColor:'#3b82f6',borderRadius:3,order:3},
         {label:'Meta FAC',data:mFacMes,backgroundColor:'rgba(16,185,129,0.15)',borderColor:'rgba(16,185,129,0.4)',borderWidth:1,borderRadius:3,order:2},
         {label:'Facturación',data:facMes,backgroundColor:'#10b981',borderRadius:3,order:1},
       ]}, options:opts3
